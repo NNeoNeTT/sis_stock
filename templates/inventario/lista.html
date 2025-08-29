@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-2xl font-semibold">Inventario</h1>
+  <a href="/inventario/nueva/" class="px-3 py-2 rounded bg-blue-600 text-white text-sm">Nueva prenda</a>
+</div>
+<div class="bg-white rounded-xl shadow overflow-x-auto">
+  <table class="min-w-full text-sm">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="text-left p-3">Categoría</th>
+        <th class="text-left p-3">Talla</th>
+        <th class="text-left p-3">Color</th>
+        <th class="text-left p-3">Total</th>
+        <th class="text-left p-3">Disponible</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for p in prendas %}
+      <tr class="border-t">
+        <td class="p-3">{{ p.get_categoria_display }}</td>
+        <td class="p-3">{{ p.talla }}</td>
+        <td class="p-3">{{ p.color }}</td>
+        <td class="p-3">{{ p.cantidad_total }}</td>
+        <td class="p-3">{{ p.cantidad_disponible }}</td>
+      </tr>
+    {% empty %}
+      <tr><td class="p-3 text-gray-500" colspan="5">Sin prendas</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

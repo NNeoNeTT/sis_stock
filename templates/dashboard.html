@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+{% block title %}Panel - Uniformes{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Panel</h1>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+  <div class="bg-white p-4 rounded-xl shadow">
+    <div class="text-gray-500">Total de prendas</div>
+    <div class="text-3xl font-bold">{{ total_prendas }}</div>
+  </div>
+  <div class="bg-white p-4 rounded-xl shadow">
+    <div class="text-gray-500">Total de empleados</div>
+    <div class="text-3xl font-bold">{{ total_empleados }}</div>
+  </div>
+  <div class="bg-white p-4 rounded-xl shadow">
+    <div class="text-gray-500">Bajo stock (<=3)</div>
+    <div class="text-3xl font-bold">{{ bajos_stock|length }}</div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="bg-white p-4 rounded-xl shadow">
+    <h2 class="text-lg font-semibold mb-2">Últimos movimientos</h2>
+    <ul class="divide-y">
+      {% for m in ultimos_movs %}
+        <li class="py-2 text-sm">{{ m.fecha|date:"d/m/Y H:i" }} — {{ m.get_tipo_display }} — {{ m.prenda }} — Cant: {{ m.cantidad }} {% if m.empleado %}— {{ m.empleado.nombre }}{% endif %}</li>
+      {% empty %}
+        <li class="py-2 text-sm text-gray-500">Sin movimientos recientes</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="bg-white p-4 rounded-xl shadow">
+    <h2 class="text-lg font-semibold mb-2">Prendas con bajo stock</h2>
+    <ul class="divide-y">
+      {% for p in bajos_stock %}
+        <li class="py-2 text-sm">{{ p.get_categoria_display }} {{ p.talla }} — Disp: {{ p.cantidad_disponible }}</li>
+      {% empty %}
+        <li class="py-2 text-sm text-gray-500">Sin alertas</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

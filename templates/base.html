@@ -1,0 +1,28 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Uniformes Prevención SRL{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <nav class="bg-white shadow mb-6">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="/" class="text-xl font-semibold">Uniformes Prevención SRL</a>
+      <div class="space-x-4">
+        <a href="/inventario/" class="text-sm">Inventario</a>
+        <a href="/empleados/" class="text-sm">Empleados</a>
+        <a href="/movimientos/nuevo/" class="text-sm">Nuevo movimiento</a>
+        {% if user.is_authenticated %}
+          <a href="/logout/" class="text-sm text-red-600">Salir</a>
+        {% else %}
+          <a href="/login/" class="text-sm">Entrar</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-6xl mx-auto px-4">{% block content %}{% endblock %}</main>
+</body>
+</html>
