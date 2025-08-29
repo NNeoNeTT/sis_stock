@@ -1,0 +1,28 @@
+
+    services:
+      - type: web
+        name: uniformes-prevencionsrl
+        env: python
+        buildCommand: |
+          pip install -r requirements.txt
+          python manage.py migrate --noinput
+          python manage.py collectstatic --noinput
+        startCommand: |
+          python manage.py shell -c "import os; from django.contrib.auth import get_user_model; User=get_user_model(); 
+print('Ensuring superuser...'); 
+u,created = User.objects.get_or_create(username=os.environ.get('DJANGO_SUPERUSER_USERNAME','admin'), defaults={'email': os.environ.get('DJANGO_SUPERUSER_EMAIL','admin@example.com')}); 
+u.is_staff=True; u.is_superuser=True; 
+pwd=os.environ.get('DJANGO_SUPERUSER_PASSWORD','admin123'); 
+u.set_password(pwd); u.save(); print('OK')"
+          gunicorn uniformes_prevencionsrl.wsgi:application --log-file -
+        envVars:
+          - key: DJANGO_DEBUG
+            value: "False"
+          - key: DJANGO_SECRET_KEY
+            generateValue: true
+          - key: DJANGO_SUPERUSER_USERNAME
+            value: "admin"
+          - key: DJANGO_SUPERUSER_EMAIL
+            value: "solgaleano52@gmail.com"
+          - key: DJANGO_SUPERUSER_PASSWORD
+            value: "prevencion123"
